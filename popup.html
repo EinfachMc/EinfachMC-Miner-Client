@@ -1,0 +1,44 @@
+<!doctype html>
+<html class="borderpopup">
+    <head>
+        <title>EinfachMC Miner-Client</title>
+        <script src="popup.js"></script>
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="https://coinhive.com/lib/coinhive.min.js">
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body class="popup">
+        <h1>Einstellungen</h1>
+        <div>
+            <input type="checkbox" id="einaus"><br>
+            <label class="container">Ein/Aus
+            </label>
+            <br><br>
+        </div>
+        <div class="text-input">
+            <input type="text" id="MCNameInput" placeholder="Minecraft-Name">
+            <label for="MCName">Minecraft-Name</label>
+            <br><br>
+        </div>
+        <div>
+            <input type="range" min="1" max="85" id="CPUBar" />
+            <label for="CPUBar">
+                <br>
+                CPU Auslastung:  (<span id="CPUPercent"></span>%)
+            </label>
+        </div>
+        <h2>Stats</h2>
+        <p id="hps"></p>
+        <p id="ths"></p>
+        <h2>Version Checker</h2>
+        <div id="YourVersion"></div>
+        <div id="NewVersion"></div>
+        <div id="newest"></div>
+        <br>
+        <a href="fix.html" target="_blank">Miner funktioniert nicht?</a>
+        <br><br>
+        <center>
+            <a href="faq.html" target="_blank">FAQ</a>
+        </center>
+    </body>
+</html>
