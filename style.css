@@ -97,13 +97,11 @@ input[type=range] {
 }
 input[type=range]:focus {
   outline: none;
-  background:#03a9f4;
 }
 input[type=range]::-webkit-slider-runnable-track {
   width: 100%;
   height: 12.8px;
   cursor: pointer;
-  animate: 0.2s;
   box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
   background:#03a9f4;
   border-radius: 25px;
@@ -130,7 +128,6 @@ input[type=range]::-moz-range-track {
   width: 100%;
   height: 12.8px;
   cursor: pointer;
-  animate: 0.2s;
   box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
   background:#03a9f4;
   border-radius: 10px;
@@ -151,7 +148,6 @@ input[type=range]::-ms-track {
   width: 100%;
   height: 12.8px;
   cursor: pointer;
-  animate: 0.2s;
   background: transparent;
   border-color: transparent;
   border-width: 39px 0;
