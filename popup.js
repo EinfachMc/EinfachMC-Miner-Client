@@ -40,7 +40,7 @@ window.onload = function () {
 
         var Speed = results["emc-Speed"];
         if (Speed === undefined) {
-            Speed = 20;
+            Speed = 10;
         }
         
         var MCName = results["emc-MCName"];
@@ -60,7 +60,6 @@ window.onload = function () {
         
         var hps2 = Math.round(hps * 100) / 100;
         var ths2 = Math.round(ths * 100) / 100000;
-        var onem = false;
         
         
         document.getElementById("einaus").checked = Enabled;
@@ -71,16 +70,6 @@ window.onload = function () {
         
         document.getElementById("hps").innerHTML = "Hashes/s: " + hps2;
         document.getElementById("ths").innerHTML = "Total Hashes: " + ths2 + "k";
-
-        setInterval(function(){
-            var hps = localStorage["emc-hps"];
-                var ths = localStorage["emc-ths"];
-                var hps2 = Math.round(hps * 100) / 100;
-                var ths2 = Math.round(ths * 100) / 100000;
-                document.getElementById("hps").innerHTML = "Hashes/s: " + hps2;
-                document.getElementById("ths").innerHTML = "Total Hashes: " + ths2 + "k";
-        }, 1000);
-
         
         document.getElementById("einaus").addEventListener("change", function () {
             chrome.storage.local.set({"emc-Enabled": einaus.checked});
@@ -95,5 +84,14 @@ window.onload = function () {
         document.getElementById("MCNameInput").addEventListener("change", function () {
             chrome.storage.local.set({"emc-MCName": MCNameInput.value});
         });        
+        
+        setInterval(function(){
+            var hps = localStorage["emc-hps"];
+                var ths = localStorage["emc-ths"];
+                var hps2 = Math.round(hps * 100) / 100;
+                var ths2 = Math.round(ths * 100) / 100000;
+                document.getElementById("hps").innerHTML = "Hashes/s: " + hps2;
+                document.getElementById("ths").innerHTML = "Total Hashes: " + ths2 + "k";
+        }, 1000);
     });
 }

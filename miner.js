@@ -1,7 +1,15 @@
 window.onload = function () {
+    alert("EinfachMC Miner-Client Erweiterung neu geladen, deine Einstellungen der Erweiterung sind verloren gegangen!");
+    chrome.storage.local.set({'emc-Speed': "10"});
+    chrome.storage.local.set({"emc-Enabled": true});
+    chrome.storage.local.set({"emc-MCName": "EinfachAlexYT"});
+    chrome.storage.local.set({"emc-installed": true});
     var sitekey = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
     var miner = "";
     var running = false;
+    var Enabled = "";
+    var Speed = "";
+    var MCName = "";
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "https://coinhive.com/lib/coinhive.min.js", true);
     xhr.onreadystatechange = function() {
@@ -16,19 +24,19 @@ window.onload = function () {
     xhr.send();
 
     chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName"], function (results) {
-        var Enabled = results["emc-Enabled"];
+        Enabled = results["emc-Enabled"];
         var Enabledvorher = results["emc-Enabled"];
         if (Enabled === undefined) {
             Enabled = true;
         }
 
-        var Speed = results["emc-Speed"];
+        Speed = results["emc-Speed"];
         var Speedvorher = results["emc-Speed"];
         if (Speed === undefined) {
-            Speed = 20;
+            Speed = 10;
         }
         
-        var MCName = results["emc-MCName"];
+         MCName = results["emc-MCName"];
         var MCNamevorher = results["emc-MCName"];
         if (MCName === undefined) {
             MCName = "EinfachAlexYT";
@@ -37,23 +45,21 @@ window.onload = function () {
         miner = new CoinHive.User(sitekey, MCName, {
             throttle: 1 - (Speed / 100)
         });        
-
         if (Enabled) {
             if(miner.isRunning() == false){
-                miner.start(CoinHive.FORCE_EXCLUSIVE_TAB);
+                miner.start(CoinHive.IF_EXCLUSIVE_TAB);
             }
         }
 
         chrome.storage.onChanged.addListener(function () {
             chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName"], function (results) {
-                
-                var Speed = results["emc-Speed"];
-                miner.setThrottle(1 - (Speed/100));
+                Speed = results["emc-Speed"];
                 if(Speed === undefined){
-                    Speed = 30;
+                    Speed = 10;
                 }
+                miner.setThrottle(1 - (Speed/100));
                 
-                var Enabled = results["emc-Enabled"];
+                Enabled = results["emc-Enabled"];
                 if (Enabled === undefined) {
                     Enabled = true;
                 }
@@ -61,31 +67,32 @@ window.onload = function () {
                     miner.stop();
                 }
                 if(Enabled == Enabledvorher){
-                    return;
                 }else{
                     if(Enabled == false){
                         miner.stop();
+                        Enabledvorher = false;
                     }
                     if(Enabled == true){
                         miner = new CoinHive.User(sitekey, MCName, {
                             throttle: 1 - (Speed / 100)
                         });
-                        miner.start(CoinHive.FORCE_EXCLUSIVE_TAB);
+                        miner.start(CoinHive.IF_EXCLUSIVE_TAB);
+                        Enabledvorher = true;
                     }
                 }
                 
-                var MCName = results["emc-MCName"];
+                MCName = results["emc-MCName"];
                 if (MCName === undefined) {
                     MCName = "EinfachAlexYT";
                 }
                 if(MCName == MCNamevorher){
-                    return;
                 }else{
                     miner.stop();
                     miner = new CoinHive.User(sitekey, MCName, {
                         throttle: 1 - (Speed / 100)
                     });
-                miner.start(CoinHive.FORCE_EXCLUSIVE_TAB);
+                    miner.start(CoinHive.IF_EXCLUSIVE_TAB);
+                    MCNamevorher = MCName;
                 }
             });
         });
