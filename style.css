@@ -5,7 +5,7 @@ alexfont {
 .popup {
     font-family: "Arial";
     font-size: 95%;
-    color: black;
+    color: white;
     background: #74747c;
     font-weight: bold;
     border-radius: 20px;
@@ -22,7 +22,7 @@ alexfont {
     border-color: black;
     border-style: solid;
     border-radius: 10px;
-    color: inherit;
+    color: black;
 }
 
 .popup a:hover, a:active, button:hover, button:active {
