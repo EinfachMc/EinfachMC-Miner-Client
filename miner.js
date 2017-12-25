@@ -5,6 +5,7 @@ window.onload = function () {
     var Enabled = "";
     var Speed = "";
     var MCName = "";
+	var installed = "";
     var HalfThreads = navigator.hardwareConcurrency/2;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "https://coinhive.com/lib/coinhive.min.js", true);
@@ -19,7 +20,7 @@ window.onload = function () {
     }
     xhr.send();
 
-    chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName"], function (results) {
+    chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName", "emc-installed"], function (results) {
         Enabled = results["emc-Enabled"];
         var Enabledvorher = results["emc-Enabled"];
         if (Enabled === undefined) {
@@ -43,7 +44,17 @@ window.onload = function () {
             MCNamevorher = "EinfachAlexYT";
             chrome.storage.local.set({"emc-MCName": "EinfachAlexYT"});
         }
-
+		
+		installed = results["emc-installed"];
+		if (installed === undefined){
+			alert("Du hast gerade die EinfachMC Miner-Client Erweiterung installiert oder ein Update durchgeführt. Damit die Erweiterung ohne Fehler funktioniert, musst du deinen Browser neustarten.")
+			installed = true;
+			chrome.storage.local.set({"emc-installed": true});
+		}else{
+			if(installed === true){
+			}
+		}
+		
         miner = new CoinHive.User(sitekey, MCName, {
             throttle: 1 - (Speed / 100)
         });        

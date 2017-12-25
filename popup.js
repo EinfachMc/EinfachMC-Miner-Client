@@ -19,7 +19,7 @@ window.onload = function () {
                             if(newVersion === Version){
                                document.getElementById("newest").innerHTML = "Aktuellste Version! ;)";
                             }else{
-                                alert("Neue Version vom EinfachMC Miner-Client verfügbar.\nDeine Version: " + Version + "\nAktuellste Version: " + newVersion);
+                                alert("Neue Version vom EinfachMC Miner-Client verfügbar.\nDeine Version: " + Version + "\nAktuellste Version: " + newVersion + "\n\nHinweis: Wenn dein Rechner über keine aktive Internetverbindung verfügt, wird diese Meldung bei jedem Öffnen der Erweiterung angezeigt.");
                             }
                         }
                     }
