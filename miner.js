@@ -1,15 +1,11 @@
 window.onload = function () {
-    alert("EinfachMC Miner-Client Erweiterung neu geladen, deine Einstellungen der Erweiterung sind verloren gegangen!");
-    chrome.storage.local.set({'emc-Speed': "10"});
-    chrome.storage.local.set({"emc-Enabled": true});
-    chrome.storage.local.set({"emc-MCName": "EinfachAlexYT"});
-    chrome.storage.local.set({"emc-installed": true});
     var sitekey = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
     var miner = "";
     var running = false;
     var Enabled = "";
     var Speed = "";
     var MCName = "";
+    var HalfThreads = navigator.hardwareConcurrency/2;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "https://coinhive.com/lib/coinhive.min.js", true);
     xhr.onreadystatechange = function() {
@@ -28,18 +24,24 @@ window.onload = function () {
         var Enabledvorher = results["emc-Enabled"];
         if (Enabled === undefined) {
             Enabled = true;
+            Enabledvorher = true;
+            chrome.storage.local.set({"emc-Enabled": true});
         }
 
         Speed = results["emc-Speed"];
         var Speedvorher = results["emc-Speed"];
         if (Speed === undefined) {
             Speed = 10;
+            Speedvorher = 10;
+            chrome.storage.local.set({"emc-Speed": "10"});
         }
         
-         MCName = results["emc-MCName"];
+        MCName = results["emc-MCName"];
         var MCNamevorher = results["emc-MCName"];
         if (MCName === undefined) {
             MCName = "EinfachAlexYT";
+            MCNamevorher = "EinfachAlexYT";
+            chrome.storage.local.set({"emc-MCName": "EinfachAlexYT"});
         }
 
         miner = new CoinHive.User(sitekey, MCName, {
