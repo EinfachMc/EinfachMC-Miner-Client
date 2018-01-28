@@ -11,6 +11,15 @@ alexfont {
     border-radius: 20px;
 }
 
+#stgif {
+    width: 100%;
+    height: 100%;
+}
+
+reflink {
+    font-size: 80%;
+}
+
 .popup a:link, a:visited, button {
     font-weight: bold;
     background: linear-gradient(141deg, #0fb8ad 0%, #1fc8db 51%, #2cb5e8 75%);
