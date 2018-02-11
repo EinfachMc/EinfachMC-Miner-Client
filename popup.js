@@ -1,7 +1,7 @@
 window.onload = function () {
     var sitekey = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
     var allText = "";
-    
+
         function searchUpdates(Version){
         var readVersion = new XMLHttpRequest();
         readVersion.open("GET", Version, true);
@@ -30,7 +30,7 @@ window.onload = function () {
         readVersion.send(null);
     }
     searchUpdates("version.txt");
-    
+
 
     chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName"], function (results) {
         var Enabled = results["emc-Enabled"];
@@ -42,35 +42,36 @@ window.onload = function () {
         if (Speed === undefined) {
             Speed = 10;
         }
-        
+
         var MCName = results["emc-MCName"];
         if (MCName === undefined) {
             MCName = "EinfachAlexYT";
         }
-        
+
         var hps = localStorage["emc-hps"];
         if (hps === undefined) {
             hps = "Error";
         }
-        
+
         var ths = localStorage["emc-ths"];
         if (ths === undefined) {
             ths = "Error";
         }
-        
+
         var hps2 = Math.round(hps * 100) / 100;
         var ths2 = Math.round(ths * 100) / 100000;
-        
-        
+
+
         document.getElementById("einaus").checked = Enabled;
         document.getElementById("CPUBar").value = Speed;
         document.getElementById("MCNameInput").value = MCName;
-        
+
         document.getElementById("CPUPercent").innerHTML = Speed;
-        
+
         document.getElementById("hps").innerHTML = "Hashes/s: " + hps2;
-        document.getElementById("ths").innerHTML = "Total Hashes: " + ths2 + "k";
-        
+        document.getElementById("ths").innerHTML = "Hashes (Session): " + ths2 + "k";
+        document.getElementById("accounthashes").innerHTML = "Hashes (Total): " + accounthashes + "k";
+
         document.getElementById("einaus").addEventListener("change", function () {
             chrome.storage.local.set({"emc-Enabled": einaus.checked});
         });
@@ -83,15 +84,19 @@ window.onload = function () {
         });
         document.getElementById("MCNameInput").addEventListener("change", function () {
             chrome.storage.local.set({"emc-MCName": MCNameInput.value});
-        });        
-        
+        });
+
         setInterval(function(){
             var hps = localStorage["emc-hps"];
-                var ths = localStorage["emc-ths"];
-                var hps2 = Math.round(hps * 100) / 100;
-                var ths2 = Math.round(ths * 100) / 100000;
-                document.getElementById("hps").innerHTML = "Hashes/s: " + hps2;
-                document.getElementById("ths").innerHTML = "Total Hashes: " + ths2 + "k";
+            var ths = localStorage["emc-ths"];
+            var accounthashes = localStorage["emc-accounthashes"];
+            var hps2 = Math.round(hps * 100) / 100;
+            var ths2 = Math.round(ths * 100) / 100000;
+            var accounthashes2 = Math.round(accounthashes * 100) / 100000;
+
+            document.getElementById("hps").innerHTML = "Hashes/s: " + hps2;
+            document.getElementById("ths").innerHTML = "Hashes (Session): " + ths2 + "k";
+            document.getElementById("accounthashes").innerHTML = "Hashes (Total): " + accounthashes2 + "k";
         }, 1000);
     });
 }

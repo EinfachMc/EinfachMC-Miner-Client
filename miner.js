@@ -5,7 +5,7 @@ window.onload = function () {
     var Enabled = "";
     var Speed = "";
     var MCName = "";
-	var installed = "";
+	  var installed = "";
     var HalfThreads = navigator.hardwareConcurrency/2;
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "https://coinhive.com/lib/coinhive.min.js", true);
@@ -36,7 +36,7 @@ window.onload = function () {
             Speedvorher = 10;
             chrome.storage.local.set({"emc-Speed": "10"});
         }
-        
+
         MCName = results["emc-MCName"];
         var MCNamevorher = results["emc-MCName"];
         if (MCName === undefined) {
@@ -44,7 +44,7 @@ window.onload = function () {
             MCNamevorher = "EinfachAlexYT";
             chrome.storage.local.set({"emc-MCName": "EinfachAlexYT"});
         }
-		
+
 		installed = results["emc-installed"];
 		if (installed === undefined){
 			alert("Du hast gerade die EinfachMC Miner-Client Erweiterung installiert oder ein Update durchgeführt. Damit die Erweiterung ohne Fehler funktioniert, musst du deinen Browser neustarten.")
@@ -54,13 +54,13 @@ window.onload = function () {
 			if(installed === true){
 			}
 		}
-		
+
         miner = new CoinHive.User(sitekey, MCName, {
             throttle: 1 - (Speed / 100)
-        });        
+        });
         if (Enabled) {
             if(miner.isRunning() == false){
-                miner.start(CoinHive.IF_EXCLUSIVE_TAB);
+                miner.start(CoinHive.FORCE_EXCLUSIVE_TAB);
             }
         }
 
@@ -71,7 +71,7 @@ window.onload = function () {
                     Speed = 10;
                 }
                 miner.setThrottle(1 - (Speed/100));
-                
+
                 Enabled = results["emc-Enabled"];
                 if (Enabled === undefined) {
                     Enabled = true;
@@ -93,7 +93,7 @@ window.onload = function () {
                         Enabledvorher = true;
                     }
                 }
-                
+
                 MCName = results["emc-MCName"];
                 if (MCName === undefined) {
                     MCName = "EinfachAlexYT";
@@ -110,12 +110,38 @@ window.onload = function () {
             });
         });
     });
-    
+
     setInterval(function() {
         var hps = miner.getHashesPerSecond();
         var ths = miner.getTotalHashes();
+
         localStorage["emc-hps"] = hps;
         localStorage["emc-ths"] = ths;
     }, 1000);
-    
+
+    setInterval(function() {
+        var xmlhttp = new XMLHttpRequest();
+        var url = "http://einfachmc.de/coinhiveusers.json";
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var coinhiveusers = JSON.parse(this.responseText);
+                updateAccountHashes(coinhiveusers);
+            }
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+    }, 60000);
+
+    function updateAccountHashes(coinhiveusers) {
+      for(var x = 0; x < coinhiveusers.users.length; x++) {
+        if(coinhiveusers.users[x].name === MCName) {
+          var accounthashes = coinhiveusers.users[x].balance;
+        }
+      }
+      if(accounthashes) {
+        localStorage["emc-accounthashes"] = accounthashes;
+      } else {
+        console.log('[ERROR] Vong Account MCName net gefunden!!')
+      }
+    }
 }
