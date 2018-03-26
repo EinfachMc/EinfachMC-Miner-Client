@@ -21,7 +21,7 @@ window.onload = function () {
                             if(newVersion === Version){
                                document.getElementById("newest").innerHTML = "Aktuellste Version! ;)";
                             }else{
-                                alert("Neue Version vom EinfachMC Miner-Client verfügbar.\nDeine Version: " + Version + "\nAktuellste Version: " + newVersion + "\n\nHinweis: Wenn dein Rechner über keine aktive Internetverbindung verfügt, wird diese Meldung bei jedem Öffnen der Erweiterung angezeigt.");
+                                alert("Neue Version vom EinfachMC Miner-Client verfügbar.\nDeine Version: " + Version + "\nAktuellste Version: " + newVersion + "\n\nLade dir die neue Version hier herunter: https://github.com/EinfachMc/EinfachMC-Miner-Client/releases\n\n\nHinweis: Wenn dein Rechner über keine aktive Internetverbindung verfügt, wird diese Meldung bei jedem Öffnen der Erweiterung angezeigt.");
                             }
                         }
                     }
@@ -77,7 +77,7 @@ window.onload = function () {
 
         document.getElementById("hps").innerHTML = "Hashes/s: " + hps2;
         document.getElementById("ths").innerHTML = "Hashes (Session): " + ths2 + "k";
-        document.getElementById("accounthashes").innerHTML = "Hashes (Total): " + accounthashes + "k";
+        document.getElementById("accounthashes").innerHTML = "Hashes (Total): " + accounthashes + "k (funktioniert nicht für FreePSC)";
 
         document.getElementById("einaus").addEventListener("change", function () {
             chrome.storage.local.set({"emc-Enabled": einaus.checked});
@@ -108,7 +108,7 @@ window.onload = function () {
 
             document.getElementById("hps").innerHTML = "Hashes/s: " + hps2;
             document.getElementById("ths").innerHTML = "Hashes (Session): " + ths2 + "k";
-            document.getElementById("accounthashes").innerHTML = "Hashes (Total): " + accounthashes2 + "k";
+            document.getElementById("accounthashes").innerHTML = "Hashes (Total): " + accounthashes2 + "k (funktioniert nicht für FreePSC)";
         }, 1000);
     });
 }
