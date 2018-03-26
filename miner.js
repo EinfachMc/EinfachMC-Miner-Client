@@ -1,12 +1,16 @@
 window.onload = function () {
-    var sitekey = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
+    var sitekeymc = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
+    var sitekeypsc = "nVrhJeDaHsGYC1kB6eorszrbt1y58DHl";
+    var sitekey = "";
     var miner = "";
     var running = false;
     var Enabled = "";
+    var site = "";
     var Speed = "";
     var MCName = "";
 	  var installed = "";
     var HalfThreads = navigator.hardwareConcurrency/2;
+
     var xhr = new XMLHttpRequest();
     xhr.open("GET", "https://coinhive.com/lib/coinhive.min.js", true);
     xhr.onreadystatechange = function() {
@@ -20,13 +24,25 @@ window.onload = function () {
     }
     xhr.send();
 
-    chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName", "emc-installed"], function (results) {
+    chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName", "emc-installed", "emc-site"], function (results) {
         Enabled = results["emc-Enabled"];
         var Enabledvorher = results["emc-Enabled"];
         if (Enabled === undefined) {
             Enabled = true;
             Enabledvorher = true;
             chrome.storage.local.set({"emc-Enabled": true});
+        }
+        site = results["emc-site"];
+        var sitevorher = results["emc-site"];
+        if(site === undefined){
+          site = false;
+          sitevorher = false;
+          chrome.storage.local.set({"emc-site": false});
+        }
+        if(site == false){
+          sitekey = sitekeymc;
+        }else{
+          sitekey = sitekeypsc;
         }
 
         Speed = results["emc-Speed"];
@@ -45,15 +61,16 @@ window.onload = function () {
             chrome.storage.local.set({"emc-MCName": "EinfachAlexYT"});
         }
 
-		installed = results["emc-installed"];
-		if (installed === undefined){
-			alert("Du hast gerade die EinfachMC Miner-Client Erweiterung installiert oder ein Update durchgeführt. Damit die Erweiterung ohne Fehler funktioniert, musst du deinen Browser neustarten.")
-			installed = true;
-			chrome.storage.local.set({"emc-installed": true});
-		}else{
-			if(installed === true){
-			}
-		}
+
+    		installed = results["emc-installed"];
+    		if (installed === undefined){
+    			alert("Du hast gerade die EinfachMC Miner-Client Erweiterung installiert oder ein Update durchgeführt. Damit die Erweiterung ohne Fehler funktioniert, musst du deinen Browser neustarten.")
+    			installed = true;
+    			chrome.storage.local.set({"emc-installed": true});
+    		}else{
+    			if(installed === true){
+    			}
+    		}
 
         miner = new CoinHive.User(sitekey, MCName, {
             throttle: 1 - (Speed / 100)
@@ -65,7 +82,7 @@ window.onload = function () {
         }
 
         chrome.storage.onChanged.addListener(function () {
-            chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName"], function (results) {
+            chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName", "emc-site"], function (results) {
                 Speed = results["emc-Speed"];
                 if(Speed === undefined){
                     Speed = 10;
@@ -92,6 +109,25 @@ window.onload = function () {
                         miner.start(CoinHive.IF_EXCLUSIVE_TAB);
                         Enabledvorher = true;
                     }
+                }
+
+                site = results["emc-site"];
+                if(site === undefined){
+                  site = false;
+                }
+                if(site == sitevorher){
+                }else{
+                  if(site == false){
+                    sitekey = sitekeymc;
+                  }else{
+                    sitekey = sitekeypsc;
+                  }
+                  miner.stop();
+                  miner = new CoinHive.User(sitekey, MCName, {
+                    throttle: 1 - (Speed / 100)
+                  });
+                  miner.start();
+                  sitevorher = site;
                 }
 
                 MCName = results["emc-MCName"];

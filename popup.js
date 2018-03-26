@@ -1,5 +1,7 @@
 window.onload = function () {
-    var sitekey = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
+    var sitekeymc = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
+    var sitekeypsc = "nVrhJeDaHsGYC1kB6eorszrbt1y58DHl";
+    var sitekey = "";
     var allText = "";
 
         function searchUpdates(Version){
@@ -32,7 +34,7 @@ window.onload = function () {
     searchUpdates("version.txt");
 
 
-    chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName"], function (results) {
+    chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName", "emc-site"], function (results) {
         var Enabled = results["emc-Enabled"];
         if (Enabled === undefined) {
             Enabled = true;
@@ -48,6 +50,11 @@ window.onload = function () {
             MCName = "EinfachAlexYT";
         }
 
+        var site = results["emc-site"];
+        if (site === undefined) {
+            site = false;
+        }
+
         var hps = localStorage["emc-hps"];
         if (hps === undefined) {
             hps = "Error";
@@ -61,8 +68,8 @@ window.onload = function () {
         var hps2 = Math.round(hps * 100) / 100;
         var ths2 = Math.round(ths * 100) / 100000;
 
-
         document.getElementById("einaus").checked = Enabled;
+        document.getElementById("siteswitch").checked = site;
         document.getElementById("CPUBar").value = Speed;
         document.getElementById("MCNameInput").value = MCName;
 
@@ -75,6 +82,11 @@ window.onload = function () {
         document.getElementById("einaus").addEventListener("change", function () {
             chrome.storage.local.set({"emc-Enabled": einaus.checked});
         });
+
+        document.getElementById("siteswitch").addEventListener("change", function (){
+          chrome.storage.local.set({"emc-site": siteswitch.checked});
+        });
+
         document.getElementById("CPUBar").addEventListener("input", function () {
             CPUBar.innerHTML = CPUBar.value;
         });
