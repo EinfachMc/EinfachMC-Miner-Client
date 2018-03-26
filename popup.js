@@ -33,7 +33,6 @@ window.onload = function () {
     }
     searchUpdates("version.txt");
 
-
     chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName", "emc-site"], function (results) {
         var Enabled = results["emc-Enabled"];
         if (Enabled === undefined) {
