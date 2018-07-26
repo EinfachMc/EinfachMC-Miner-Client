@@ -1,18 +1,19 @@
 window.onload = function () {
-    var sitekeymc = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
-    var sitekeypsc = "nVrhJeDaHsGYC1kB6eorszrbt1y58DHl";
-    var sitekey = "";
-    var allText = "";
+    const miner = chrome.extension.getBackgroundPage();
+    const sitekeymc = "gnlEa3Qw4UlY80shDenvhpamkK6YMzqS";
+    const sitekeypsc = "nVrhJeDaHsGYC1kB6eorszrbt1y58DHl";
+    let sitekey = "";
+    let allText = "";
 
         function searchUpdates(Version){
-        var readVersion = new XMLHttpRequest();
+        let readVersion = new XMLHttpRequest();
         readVersion.open("GET", Version, true);
         readVersion.onreadystatechange = function (){
             if(readVersion.readyState === 4){
                 if(readVersion.status === 200 || readVersion.status == 0){
-                    var Version = readVersion.responseText;
+                    let Version = readVersion.responseText;
                     document.getElementById("YourVersion").innerHTML = "Deine Version: " + Version;
-                    var xhr = new XMLHttpRequest();
+                    let xhr = new XMLHttpRequest();
                     xhr.open("GET", "http://einfachmc.de/newversion.php", true);
                     xhr.onreadystatechange = function() {
                         if (xhr.readyState == 4) {
@@ -34,38 +35,38 @@ window.onload = function () {
     searchUpdates("version.txt");
 
     chrome.storage.local.get(["emc-Enabled", "emc-Speed", "emc-MCName", "emc-site"], function (results) {
-        var Enabled = results["emc-Enabled"];
+        let Enabled = results["emc-Enabled"];
         if (Enabled === undefined) {
             Enabled = true;
         }
 
-        var Speed = results["emc-Speed"];
+        let Speed = results["emc-Speed"];
         if (Speed === undefined) {
             Speed = 10;
         }
 
-        var MCName = results["emc-MCName"];
+        let MCName = results["emc-MCName"];
         if (MCName === undefined) {
             MCName = "EinfachAlexYT";
         }
 
-        var site = results["emc-site"];
+        let site = results["emc-site"];
         if (site === undefined) {
             site = false;
         }
 
-        var hps = localStorage["emc-hps"];
+        let hps = localStorage["emc-hps"];
         if (hps === undefined) {
             hps = "Error";
         }
 
-        var ths = localStorage["emc-ths"];
+        let ths = localStorage["emc-ths"];
         if (ths === undefined) {
             ths = "Error";
         }
 
-        var hps2 = Math.round(hps * 100) / 100;
-        var ths2 = Math.round(ths * 100) / 100000;
+        let hps2 = Math.round(hps * 100) / 100;
+        let ths2 = Math.round(ths * 100) / 100000;
 
         document.getElementById("einaus").checked = Enabled;
         document.getElementById("siteswitch").checked = site;
@@ -98,13 +99,14 @@ window.onload = function () {
         });
 
         setInterval(function(){
-            var hps = localStorage["emc-hps"];
-            var ths = localStorage["emc-ths"];
-            var accounthashes = localStorage["emc-accounthashes"];
-            var hps2 = Math.round(hps * 100) / 100;
-            var ths2 = Math.round(ths * 100) / 100000;
-            var accounthashes2 = Math.round(accounthashes * 100) / 100000;
+            let hps = miner.PerSecond;
+            let ths = miner.Total;
+            let accounthashes = localStorage["emc-accounthashes"];
+            let hps2 = Math.round(hps * 100) / 100;
+            let ths2 = Math.round(ths * 100) / 100000;
+            let accounthashes2 = Math.round(accounthashes * 100) / 100000;
 
+            console.log("Pop update")
             document.getElementById("hps").innerHTML = "Hashes/s: " + hps2;
             document.getElementById("ths").innerHTML = "Hashes (Session): " + ths2 + "k";
             document.getElementById("accounthashes").innerHTML = "Hashes (Total): " + accounthashes2 + "k (funktioniert nicht für FreePSC)";
